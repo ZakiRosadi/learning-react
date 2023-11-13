@@ -1,0 +1,28 @@
+
+
+const IRegencies: React.FC <IdataRegencyProps> = ({PickedProv, onSelectIDataRegencies}) => {
+  // {regencyId} = useParams()
+  const [Regency, setDataRegencies] = useState<IDataRegencies[]>([]);
+
+  useEffect(() => {
+    fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${PickedProv}.json`)
+      .then((res) => res.json())
+      .then((res) => {
+        setDataRegencies(res);
+      });
+  }, [PickedProv]); // ketika ada data yang berubah. useEffect will refetch the url
+
+  console.log(Regency);
+
+  return (
+    <>
+      <select onChange={(e) => onSelectIDataRegencies(+e.target.value)}className="form-select" aria-label="Default select example">
+            {/* <option value="">Pilih Kab/Kota</option> */}
+        <option selected>Open this select menu</option>
+        {Regency.map((item: IDataRegencies,) => (
+          <option value={item.id}>{item.name}</option>
+        ))}
+      </select>
+    </>
+  );
+};
